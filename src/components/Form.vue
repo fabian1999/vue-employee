@@ -66,7 +66,7 @@ export default {
 </script>
 
 <style scoped>
-    .form {
+.form {
   width: 50vh;
   height: 80vh;
   display: grid;
@@ -84,11 +84,11 @@ export default {
   ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   border-radius: 10px;
   box-shadow: -5px 5px 5px 1px rgba(0, 0, 0, 0.85);
-  float: left
+  float: left;
 }
 
 #myfile {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 .styled-input {
@@ -108,5 +108,9 @@ export default {
   box-shadow: 0px 0px 1px 1px #000000;
   padding-left: 10px;
   padding-right: 10px;
+}
+
+.label-start-date {
+  margin-top: 10px;
 }
 </style>

@@ -63,13 +63,13 @@ export default {
   outline: none;
 }
 
-.styled-buttons {
-  height: 35px;
-  width: 130px;
-  margin: auto;
+.styled-input {
   margin-bottom: 20px;
+  border-radius: 10px;
+  outline: none;
   border: none;
-  background-color: #f8f9fa;
-  border-radius: 5px;
+  box-shadow: 0px 0px 1px 1px #000000;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 </style>
