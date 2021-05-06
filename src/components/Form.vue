@@ -97,7 +97,7 @@ export default {
         data: JSON.stringify(newEmployee),
         url: "https://localhost:5001/employee/Employee",
         success: function(data) {
-            self.$emit('addEmployee', data);
+          self.$emit("addEmployee", data);
         },
         error: function() {
           alert(`Failed to add employee.`);
