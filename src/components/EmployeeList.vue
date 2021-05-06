@@ -1,15 +1,18 @@
 <template>
   <div class="list">
     <table id="table">
-      <tr>
-        <th>Last Name</th>
-        <th>First Name</th>
-        <th>Email</th>
-        <th>Sex</th>
-        <th>Date</th>
-        <th>Image</th>
-        <th>Delete</th>
-      </tr>
+      <thead>
+        <tr>
+          <th>Last Name</th>
+          <th>First Name</th>
+          <th>Email</th>
+          <th>Sex</th>
+          <th>Date</th>
+          <th>Image</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
     </table>
   </div>
 </template>
@@ -40,39 +43,46 @@ export default {
   },
   methods: {
     loadEmployees(employeesList) {
+      let dataTable = document.getElementById("table");
       for (var index = 0; index < employeesList.length; index++) {
-        this.appendRow(employeesList[index]);
+        this.appendRow(dataTable, employeesList[index]);
       }
     },
-    appendRow(employee) {
-      let employeesTable = document.getElementById("table");
-      var id = employeesTable.getElementsByTagName("tr").length;
-
-      employeesTable.innerHTML += `<tr><td>
-        ${employee.lastName}
-        </td><td>
-        ${employee.firstName}
-        </td><td>
-        ${employee.email}
-        </td><td>
-        ${employee.gender}
-        </td><td>
-        ${employee.birthdate}
-        </td><td>
-        <img id='image" ${id} 'style='width: 20px; height: 20px' src='#'></img></td><td><button onClick='this.deleteUser(this, ${employee.id})'>X</button></td></tr>`;
-    },
-    deleteUser(btn, idFromDb) {
-      var row = btn.parentNode.parentNode;
-      row.parentNode.removeChild(row);
-
-      $.ajax({
-        method: "DELETE",
-        url: `https://localhost:5001/employee/Employee/${idFromDb}`,
-        success: function() {},
-        error: function() {
-          alert(`Failed to delete employee.`);
-        },
-      });
+    appendRow(tableNode, data) {
+        const row = document.createElement('tr');
+        row.style.cssText='text-align:center';
+        console.log(data)
+        for(const key in data){
+            const cell = document.createElement('td');
+            if(key === "id"){
+                continue;
+            }
+            if(key === "birthdate"){
+                cell.innerText = data[key].split("T")[0];
+            }   
+            else{
+                cell.innerText = data[key];
+            }            
+            row.appendChild(cell);
+        }
+        if (tableNode.children.length < 2) {
+            console.log("Table doesent contain body")
+            return;
+        }
+        let button = document.createElement('button');
+        button.innerHTML = 'X';
+        row.appendChild(button)
+        button.onclick = function() {
+            row.remove();
+            $.ajax({
+            method: "DELETE",
+            url: `https://localhost:5001/employee/Employee/${data.id}`,
+            error: function () {
+                alert(`Failed to remove employee from list`);
+            },
+        });
+        };
+        tableNode.children[1].appendChild(row);
     },
   },
 };
