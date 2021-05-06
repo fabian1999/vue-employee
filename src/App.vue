@@ -49,7 +49,6 @@ html {
   height: 100%;
   width: 100%;
   background-color: #eeeeee;
-  overflow: hidden;
 }
 
 @media only screen and (max-width: 1200px) {
