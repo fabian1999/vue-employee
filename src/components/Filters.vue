@@ -25,7 +25,7 @@
       class="styled-buttons"
       id="sortDateButton"
       sort="up"
-      onClick="sortTableByDate()"
+      @click="sortTableByDate()"
       style="margin-bottom: 0; height: 25px;"
     >
       Sort By Date
@@ -39,7 +39,7 @@ import $ from "jquery";
 export default {
   name: "Filters",
   props: {
-      employeeTable: HTMLTableElement,
+    employeeTable: HTMLTableElement,
   },
   methods: {
     filterFunction() {
@@ -64,6 +64,42 @@ export default {
           } else {
             tr[i].style.display = "none";
           }
+        }
+      }
+    },
+
+    sortTableByDate() {
+      var sortAttribute = document
+        .getElementById("sortDateButton")
+        .getAttribute("sort");
+      if (sortAttribute == "up")
+        document.getElementById("sortDateButton").setAttribute("sort", "down");
+      else document.getElementById("sortDateButton").setAttribute("sort", "up");
+      var table, rows, switching, i, x, y, shouldSwitch;
+      table = this.employeeTable;
+      switching = true;
+      while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < rows.length - 1; i++) {
+          shouldSwitch = false;
+          x = new Date(rows[i].getElementsByTagName("td")[4].innerText);
+          y = new Date(rows[i + 1].getElementsByTagName("td")[4].innerText);
+          if (sortAttribute == "up") {
+            if (x < y) {
+              shouldSwitch = true;
+              break;
+            }
+          } else if (sortAttribute == "down") {
+            if (x > y) {
+              shouldSwitch = true;
+              break;
+            }
+          }
+        }
+        if (shouldSwitch) {
+          rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+          switching = true;
         }
       }
     },
