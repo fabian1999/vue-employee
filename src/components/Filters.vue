@@ -3,7 +3,7 @@
     <input
       type="text"
       id="myInput"
-      onkeyup="filterFunction()"
+      @keyup="filterFunction()"
       placeholder="Search for names.."
       style="margin-top: 0px;"
     />
@@ -13,7 +13,7 @@
       id="filterSex"
       required
       class="styled-input"
-      onchange="filterFunction()"
+      @change="filterFunction()"
       style="margin-bottom: 10px;"
     >
       <option value="" selected="selected">None</option>
@@ -34,8 +34,40 @@
 </template>
 
 <script>
+import $ from "jquery";
+
 export default {
   name: "Filters",
+  props: {
+      employeeTable: HTMLTableElement,
+  },
+  methods: {
+    filterFunction() {
+      var filter = $("#filterSex").val();
+      var table = this.employeeTable;
+      var tr = table.getElementsByTagName("tr");
+
+      var input = document.getElementById("myInput");
+      var filterInput = input.value.toUpperCase();
+
+      for (var i = 0; i < tr.length; i++) {
+        var td = tr[i].getElementsByTagName("td")[3];
+        var td0 = tr[i].getElementsByTagName("td")[0];
+        if (td && td0) {
+          var txtValue = td.textContent || td.innerText;
+          var txtValue0 = td0.textContent || td0.innerText;
+          if (
+            txtValue.indexOf(filter) > -1 &&
+            txtValue0.toUpperCase().indexOf(filterInput) > -1
+          ) {
+            tr[i].style.display = "";
+          } else {
+            tr[i].style.display = "none";
+          }
+        }
+      }
+    },
+  },
 };
 </script>
 

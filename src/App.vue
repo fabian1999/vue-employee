@@ -1,8 +1,8 @@
 <template>
-  <Filters />
+  <Filters :employeeTable="employeeTable"/>
   <div class="form-container">
     <Form @addEmployee="addNewEmployee"/>
-    <EmployeeList ref="employees"/>
+    <EmployeeList @tableOfEmployees="onTableOfEmployeesClick" ref="employees"/>
   </div>
 </template>
 
@@ -18,9 +18,18 @@ export default {
     Form,
     EmployeeList,
   },
+  data() {
+    return {
+      employeeTable: HTMLTableElement
+    }
+  },
   methods: {
     addNewEmployee: function(data){
       this.$refs.employees.appendRow(data);
+    },
+    onTableOfEmployeesClick: function(value){
+      this.employeeTable = value;
+      console.log(this.employeeTable);
     }
   }
 };

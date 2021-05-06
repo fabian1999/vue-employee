@@ -46,44 +46,44 @@ export default {
       for (var index = 0; index < employeesList.length; index++) {
         this.appendRow(employeesList[index]);
       }
+      this.$emit("tableOfEmployees", document.getElementById("table"));
     },
     async appendRow(data) {
-        let tableNode = document.getElementById("table");
-        const row = document.createElement('tr');
-        row.style.cssText='text-align:center';
+      let tableNode = document.getElementById("table");
+      const row = document.createElement("tr");
+      row.style.cssText = "text-align:center";
 
-        for(const key in data){
-            const cell = document.createElement('td');
-            if(key === "id"){
-                continue;
-            }
-            if(key === "birthdate"){
-                cell.innerText = data[key].split("T")[0];
-            }   
-            else{
-                cell.innerText = data[key];
-            }            
-            row.appendChild(cell);
+      for (const key in data) {
+        const cell = document.createElement("td");
+        if (key === "id") {
+          continue;
         }
-        if (tableNode.children.length < 2) {
-            console.log("Table doesent contain body")
-            return;
+        if (key === "birthdate") {
+          cell.innerText = data[key].split("T")[0];
+        } else {
+          cell.innerText = data[key];
         }
-        let button = document.createElement('button');
-        button.innerHTML = 'X';
-        row.appendChild(button)
-        button.onclick = function() {
-            row.remove();
-            $.ajax({
-            method: "DELETE",
-            url: `https://localhost:5001/employee/Employee/${data.id}`,
-            error: function () {
-                alert(`Failed to remove employee from list`);
-            },
+        row.appendChild(cell);
+      }
+      if (tableNode.children.length < 2) {
+        console.log("Table doesent contain body");
+        return;
+      }
+      let button = document.createElement("button");
+      button.innerHTML = "X";
+      row.appendChild(button);
+      button.onclick = function() {
+        row.remove();
+        $.ajax({
+          method: "DELETE",
+          url: `https://localhost:5001/employee/Employee/${data.id}`,
+          error: function() {
+            alert(`Failed to remove employee from list`);
+          },
         });
-        };
-        tableNode.children[1].appendChild(row);
-        this.employeesList.push(data);
+      };
+      tableNode.children[1].appendChild(row);
+      this.employeesList.push(data);
     },
   },
 };
