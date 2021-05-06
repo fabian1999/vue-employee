@@ -55,13 +55,56 @@
     <label for="myfile">Select files:</label>
     <input type="file" id="myfile" name="myfile" multiple />
 
-    <button class="styled-buttons" onClick="addFields()">Submit</button>
+    <button class="styled-buttons" @click="addFields()">Submit</button>
   </div>
 </template>
 
 <script>
+import $ from "jquery";
+
 export default {
   name: "Form",
+  methods: {
+    validateInput(newEmployee) {
+      if (
+        !newEmployee.firstName ||
+        !newEmployee.lastName ||
+        !newEmployee.email ||
+        !newEmployee.birthdate
+      ) {
+        return false;
+      }
+      return true;
+    },
+    addFields() {
+      var self = this;
+      // Number of inputs to create
+      var newEmployee = new Object();
+      newEmployee.lastName = document.getElementById("lastName").value;
+      newEmployee.firstName = document.getElementById("firstName").value;
+      newEmployee.email = document.getElementById("email").value;
+      newEmployee.gender = document.getElementById("dropdown").value;
+      //newEmployee.file = document.getElementById("myfile");
+      newEmployee.birthdate = document.getElementById("start").value;
+
+      if (!this.validateInput(newEmployee)) {
+        alert("Fields are required.");
+      }
+
+      $.ajax({
+        method: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(newEmployee),
+        url: "https://localhost:5001/employee/Employee",
+        success: function(data) {
+            self.$emit('addEmployee', data);
+        },
+        error: function() {
+          alert(`Failed to add employee.`);
+        },
+      });
+    },
+  },
 };
 </script>
 

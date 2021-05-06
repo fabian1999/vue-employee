@@ -43,15 +43,15 @@ export default {
   },
   methods: {
     loadEmployees(employeesList) {
-      let dataTable = document.getElementById("table");
       for (var index = 0; index < employeesList.length; index++) {
-        this.appendRow(dataTable, employeesList[index]);
+        this.appendRow(employeesList[index]);
       }
     },
-    appendRow(tableNode, data) {
+    async appendRow(data) {
+        let tableNode = document.getElementById("table");
         const row = document.createElement('tr');
         row.style.cssText='text-align:center';
-        console.log(data)
+
         for(const key in data){
             const cell = document.createElement('td');
             if(key === "id"){
@@ -83,6 +83,7 @@ export default {
         });
         };
         tableNode.children[1].appendChild(row);
+        this.employeesList.push(data);
     },
   },
 };

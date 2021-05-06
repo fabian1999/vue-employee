@@ -1,8 +1,8 @@
 <template>
   <Filters />
   <div class="form-container">
-    <Form />
-    <EmployeeList />
+    <Form @addEmployee="addNewEmployee"/>
+    <EmployeeList ref="employees"/>
   </div>
 </template>
 
@@ -18,6 +18,11 @@ export default {
     Form,
     EmployeeList,
   },
+  methods: {
+    addNewEmployee: function(data){
+      this.$refs.employees.appendRow(data);
+    }
+  }
 };
 </script>
 
