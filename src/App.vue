@@ -29,7 +29,6 @@ export default {
     },
     onTableOfEmployeesClick: function(value){
       this.employeeTable = value;
-      console.log(this.employeeTable);
     }
   }
 };
