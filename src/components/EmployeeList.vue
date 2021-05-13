@@ -18,28 +18,21 @@
 </template>
 
 <script>
-import $ from "jquery";
+import axios from "axios";
 
 export default {
   name: "EmployeeList",
-  data() {
-    return {
-      employeesList: [],
-    };
-  },
   async created() {
     let self = this;
-    $.ajax({
-      method: "GET",
-      url: "https://localhost:5001/employee/Employee",
-      success: function(data) {
-        this.employeesList = data;
-        self.loadEmployees(this.employeesList);
-      },
-      error: function() {
+
+    axios
+      .get("https://localhost:5001/employee/Employee")
+      .then((response) => {
+        self.loadEmployees(response.data);
+      })
+      .catch(() => {
         alert(`Failed to get employees list.`);
-      },
-    });
+      });
   },
   methods: {
     loadEmployees(employeesList) {
@@ -74,16 +67,12 @@ export default {
       row.appendChild(button);
       button.onclick = function() {
         row.remove();
-        $.ajax({
-          method: "DELETE",
-          url: `https://localhost:5001/employee/Employee/${data.id}`,
-          error: function() {
-            alert(`Failed to remove employee from list`);
-          },
-        });
+
+        axios
+          .delete(`https://localhost:5001/employee/Employee/${data.id}`)
+          .catch(() => alert(`Failed to remove employee from list`));
       };
       tableNode.children[1].appendChild(row);
-      this.employeesList.push(data);
     },
   },
 };

@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import $ from "jquery";
+import axios from "axios";
 
 export default {
   name: "Form",
@@ -91,18 +91,14 @@ export default {
         alert("Fields are required.");
       }
 
-      $.ajax({
-        method: "POST",
-        contentType: "application/json",
-        data: JSON.stringify(newEmployee),
-        url: "https://localhost:5001/employee/Employee",
-        success: function(data) {
-          self.$emit("addEmployee", data);
-        },
-        error: function() {
+      axios
+        .post("https://localhost:5001/employee/Employee", newEmployee)
+        .then((response) => {
+          self.$emit("addEmployee", response.data);
+        })
+        .catch(() => {
           alert(`Failed to add employee.`);
-        },
-      });
+        });
     },
   },
 };
